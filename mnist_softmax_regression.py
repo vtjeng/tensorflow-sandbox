@@ -1,6 +1,7 @@
 # implementing beginner's tutorial, found at https://www.tensorflow.org/versions/r0.7/tutorials/mnist/beginners/index.html
 
 import tensorflow as tf
+import numpy as np
 
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("MNIST_data/", one_hot = True)
@@ -32,7 +33,7 @@ init = tf.initialize_all_variables()
 sess = tf.Session()
 sess.run(init) # initializing all the variables
 
-num_iterations = 10000
+num_iterations = 1000
 
 for i in xrange(num_iterations):
     batch_xs, batch_ys = mnist.train.next_batch(100) # we get a batch of one hundred random data points
@@ -41,3 +42,6 @@ for i in xrange(num_iterations):
 correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 print(sess.run(accuracy, feed_dict = {x: mnist.test.images, y_:mnist.test.labels}))
+
+# note that the cross_entropy with a perfect classifier would be zero
+print(sess.run(cross_entropy, feed_dict = {x: mnist.test.images, y_: mnist.test.labels}))
